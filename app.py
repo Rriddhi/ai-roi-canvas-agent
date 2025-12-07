@@ -42,10 +42,11 @@ def initialize_session_state():
     if "phase" not in st.session_state:
         st.session_state.phase = "interview"
     if "api_key" not in st.session_state:
-        # Check multiple sources for API key
+        # Check environment variables for API key (for deployed apps)
         st.session_state.api_key = (
-            os.environ.get("ANTHROPIC_API_KEY", "") or 
-            os.environ.get("anthropic_api_key", "")
+            os.environ.get("ANTHROPIC_API_KEY") or 
+            os.environ.get("anthropic_api_key") or
+            ""
         )
     if "api_enabled" not in st.session_state:
         st.session_state.api_enabled = False
@@ -159,15 +160,17 @@ def render_sidebar():
         st.title("🤖 AI Canvas Agent")
         st.markdown("---")
         
-        # API Key status
-        if st.session_state.api_key:
-            # Show that API is configured
+        # API Key status - Check environment first, then session
+        env_api_key = os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("anthropic_api_key")
+        
+        if env_api_key or st.session_state.api_key:
+            # API key is configured (from environment or session)
             if st.session_state.api_enabled:
                 st.success("✅ API Connected & Working")
             else:
-                st.info("🔑 API Key Configured")
+                st.info("🔑 API Key Configured (Backend)")
             
-            # Option to change key
+            # Option to change key (hidden by default)
             with st.expander("🔧 Change API Key"):
                 new_key = st.text_input(
                     "New API Key",
@@ -180,7 +183,7 @@ def render_sidebar():
                     st.success("Key updated! Send a message to test it.")
                     st.rerun()
         else:
-            # No API key configured - show warning and input
+            # No API key in environment or session - show input only as fallback
             st.warning("⚠️ No API Key Configured")
             st.caption("Enter your Anthropic API key to enable conversational intelligence")
             
