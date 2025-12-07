@@ -1,0 +1,13 @@
+# Core Dependencies
+streamlit==1.45.1
+anthropic==0.21.0
+pandas==2.2.3
+numpy==1.26.4
+
+# Image Processing & Export
+Pillow==11.1.0
+selenium==4.39.0
+pyppeteer==0.0.25
+
+# Utilities
+python-dotenv==1.0.0

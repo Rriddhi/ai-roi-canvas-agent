@@ -1,0 +1,524 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Overall ROI and Roadmap Canvas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .canvas-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border: 3px solid #333;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .canvas-header {
+            background: white;
+            padding: 20px 30px;
+            border-bottom: 2px solid #333;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .canvas-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .header-field {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header-label {
+            font-size: 11px;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        
+        .header-value {
+            font-size: 13px;
+            color: #333;
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .objectives-section {
+            background: #f9f9f9;
+            padding: 20px 30px;
+            border-bottom: 2px solid #333;
+            position: relative;
+        }
+        
+        .objectives-icon {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border: 2px solid #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .section-subtitle {
+            font-size: 12px;
+            font-style: italic;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .objectives-content {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.8;
+        }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr;
+            border-bottom: 2px solid #333;
+        }
+        
+        .grid-cell {
+            padding: 20px;
+            border-right: 2px solid #333;
+            position: relative;
+        }
+        
+        .grid-cell:last-child {
+            border-right: none;
+        }
+        
+        .cell-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 35px;
+            height: 35px;
+            background: #fff;
+            border: 2px solid #333;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        .cell-content {
+            font-size: 13px;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .cell-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .cell-content li {
+            padding: 4px 0;
+            padding-left: 15px;
+            position: relative;
+        }
+        
+        .cell-content li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #666;
+        }
+        
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: 2px solid #333;
+        }
+        
+        .risks-caps-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .full-width-section {
+            padding: 20px 30px;
+            border-bottom: 2px solid #333;
+        }
+        
+        .costs-benefits-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .roi-section {
+            padding: 20px 30px;
+            background: #f9f9f9;
+            border-bottom: 2px solid #333;
+        }
+        
+        .roi-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        
+        .roi-metric {
+            background: white;
+            padding: 15px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .roi-label {
+            font-size: 11px;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .roi-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+        
+        .roi-note {
+            background: white;
+            padding: 15px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer {
+            padding: 15px 30px;
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .timeline-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        .timeline-table th {
+            background: #f9f9f9;
+            padding: 10px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid #ddd;
+        }
+        
+        .timeline-table td {
+            padding: 10px;
+            font-size: 12px;
+            border: 1px solid #ddd;
+        }
+        
+        .timeline-table tr:nth-child(even) {
+            background: #fafafa;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+            }
+            .canvas-container {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas-container">
+        <!-- Header -->
+        <div class="canvas-header">
+            <div class="canvas-title">AI Overall ROI and Roadmap Canvas</div>
+            <div class="header-field">
+                <div class="header-label">Name</div>
+                <div class="header-value">TechCorp Industries</div>
+            </div>
+            <div class="header-field">
+                <div class="header-label">Designed by:</div>
+                <div class="header-value">AI Strategy Team</div>
+            </div>
+            <div class="header-field">
+                <div class="header-label">Designed For:</div>
+                <div class="header-value">Executive Leadership</div>
+            </div>
+            <div class="header-field">
+                <div class="header-label">Date:</div>
+                <div class="header-value">2025-12-07</div>
+            </div>
+        </div>
+        
+        <!-- Objectives -->
+        <div class="objectives-section">
+            <div class="objectives-icon">🎯</div>
+            <div class="section-title">Objectives</div>
+            <div class="section-subtitle">
+                Clearly define the strategic goals of the AI initiative, aligning with broader business objectives. 
+                Specify the purpose of the portfolio, distinguishing between initiatives aimed at staying in business, 
+                generating ROI, and creating future options
+            </div>
+            <div class="objectives-content">
+                <strong>Primary Goal:</strong> Transform operations through strategic AI implementation to achieve 25% cost reduction within 18 months<br>
+                <strong>Strategic Focus:</strong> Focus on high-impact, low-effort initiatives in customer service, operations automation, and predictive analytics to drive immediate ROI while building foundation for future AI capabilities
+            </div>
+        </div>
+        
+        <!-- Main Grid: Inputs, Impacts, Timeline -->
+        <div class="main-grid">
+            <!-- Inputs -->
+            <div class="grid-cell">
+                <div class="cell-icon">👥</div>
+                <div class="section-title">Inputs</div>
+                <div class="section-subtitle">
+                    List the necessary resources, categorized into hard costs (e.g., hardware, software, data) 
+                    and soft costs (e.g., training, change management), ensuring that all financial, human, 
+                    and technological inputs are accounted for
+                </div>
+                <div class="cell-content">
+                    <strong>Resources:</strong>
+                    <ul>
+                        <li>$315,000 initial investment</li><li>Cloud infrastructure (AWS/Azure)</li><li>AI/ML platforms and tools</li>
+                    </ul>
+                    <strong>Personnel:</strong>
+                    <ul>
+                        <li>AI/ML engineers</li><li>Data scientists</li><li>Project managers</li><li>Change management specialists</li>
+                    </ul>
+                    <strong>External Support:</strong>
+                    <ul>
+                        <li>Technology vendors</li><li>Consulting partners</li><li>Training providers</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Impacts -->
+            <div class="grid-cell">
+                <div class="cell-icon">✓</div>
+                <div class="section-title">Impacts</div>
+                <div class="section-subtitle">
+                    Detail the anticipated impacts of the AI initiative from individual, organizational, 
+                    and societal perspectives. Include metrics for both hard benefits (e.g., time savings) 
+                    and soft benefits (e.g., improved decision-making)
+                </div>
+                <div class="cell-content">
+                    <strong>Hard Benefits:</strong>
+                    <ul>
+                        <li>Response time</li><li>Customer satisfaction</li><li>Ticket volume</li><li>Processing time</li><li>Error rate</li><li>Staff hours</li><li>Classification accuracy</li><li>Processing speed</li>
+                    </ul>
+                    <strong>Soft Benefits:</strong>
+                    <ul>
+                        <li>Improved customer satisfaction</li><li>24/7 availability</li><li>Faster payment cycles</li><li>Reduced errors</li><li>Faster workflows</li><li>Better compliance</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Timeline & Milestones -->
+            <div class="grid-cell">
+                <div class="cell-icon">💬</div>
+                <div class="section-title">Timeline & Milestones</div>
+                <div class="section-subtitle">
+                    Outline the project phases, key deliverables, and deadlines, incorporating checkpoints 
+                    for evaluating the realization of hard and soft benefits. Ensure alignment with prioritized 
+                    initiatives and strategic objectives
+                </div>
+                <div class="cell-content">
+                    <table class="timeline-table">
+                        <thead>
+                            <tr>
+                                <th>AI Initiative</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Milestone</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td>Customer Service Chatbot</td>
+                                <td>2025-12-07</td>
+                                <td>2026-03-07</td>
+                                <td>Q1 delivery</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>Automated Invoice Processing</td>
+                                <td>2026-01-06</td>
+                                <td>2026-04-06</td>
+                                <td>Q1 delivery</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>Document Classification System</td>
+                                <td>2026-02-05</td>
+                                <td>2026-05-06</td>
+                                <td>Q1 delivery</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>Sales Forecasting AI</td>
+                                <td>2026-03-07</td>
+                                <td>2027-03-07</td>
+                                <td>1-Year delivery</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Risks & Capabilities Grid -->
+        <div class="risks-caps-grid">
+            <!-- Risks -->
+            <div class="grid-cell">
+                <div class="cell-icon">⚠️</div>
+                <div class="section-title">Risks</div>
+                <div class="section-subtitle">
+                    Identify potential risks associated with the AI project, categorizing them into consumer, 
+                    company, societal, and environmental risks. Include strategies for mitigating these risks 
+                    and account for both the direct and indirect costs of risk management
+                </div>
+                <div class="cell-content">
+                    <ul>
+                        <li>Integration complexity</li><li>User adoption</li><li>OCR accuracy</li><li>Legacy system integration</li><li>Training data quality</li><li>Edge cases</li><li>Market volatility</li><li>Data availability</li><li>Model drift</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Capabilities -->
+            <div class="grid-cell">
+                <div class="cell-icon">👤</div>
+                <div class="section-title">Capabilities</div>
+                <div class="section-subtitle">
+                    Specify the skills, expertise, and technological capabilities required to successfully 
+                    develop, deploy, and manage the AI solution. Ensure that the capabilities align with 
+                    the strategic objectives and are sufficient to deliver both hard and soft benefits
+                </div>
+                <div class="cell-content">
+                    <strong>Skills Needed:</strong>
+                    <ul>
+                        <li>Machine Learning</li><li>Data Engineering</li><li>MLOps</li><li>Change Management</li><li>Natural Language Processing</li><li>Computer Vision</li>
+                    </ul>
+                    <strong>Technology:</strong>
+                    <ul>
+                        <li>Cloud infrastructure</li><li>ML frameworks (TensorFlow, PyTorch)</li><li>Data platforms</li><li>API integration tools</li><li>Monitoring and observability</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Costs & Benefits Grid -->
+        <div class="costs-benefits-grid">
+            <!-- Costs -->
+            <div class="grid-cell">
+                <div class="cell-icon">💳</div>
+                <div class="section-title">Costs</div>
+                <div class="section-subtitle">
+                    Provide a detailed breakdown of the financial expenditure required for the AI project, 
+                    including both hard costs (e.g., infrastructure, licensing) and soft costs (e.g., employee training, 
+                    compliance). Allocate these costs across different phases of the project and categorize them 
+                    according to their relevance to stay-in-business, ROI-generating, or option-creating initiatives
+                </div>
+                <div class="cell-content">
+                    <ul>
+                        <li><strong>Near Term:</strong> $353,000</li>
+                        <li><strong>Long Term:</strong> $44,000 annually</li>
+                        <li><strong>Annual Maintenance:</strong> $44,000</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Benefits -->
+            <div class="grid-cell">
+                <div class="cell-icon">📊</div>
+                <div class="section-title">Benefits</div>
+                <div class="section-subtitle">
+                    Quantify the expected returns from the AI project, detailing both hard benefits (e.g., cost savings, 
+                    revenue growth) and soft benefits (e.g., brand reputation, employee satisfaction). Ensure that these 
+                    benefits align with the organization's strategic objectives and provide a clear value proposition
+                </div>
+                <div class="cell-content">
+                    <ul>
+                        <li><strong>Near Term:</strong> $390,000 annually</li>
+                        <li><strong>Long Term:</strong> $640,000 annually</li>
+                    </ul>
+                    <strong>Soft Benefits:</strong>
+                    <ul>
+                        <li>Improved customer satisfaction</li><li>24/7 availability</li><li>Faster payment cycles</li><li>Reduced errors</li><li>Faster workflows</li><li>Better compliance</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Portfolio ROI -->
+        <div class="roi-section">
+            <div class="section-title">Portfolio Return on Investment</div>
+            <div class="section-subtitle">
+                Evaluate the overall ROI for the AI portfolio, identifying the proportion of initiatives aimed at 
+                staying in business, generating ROI, and creating future options. Use a value-effort matrix to prioritize 
+                initiatives with the highest impact and feasibility, ensuring a balanced portfolio approach
+            </div>
+            <div class="roi-content">
+                <div class="roi-metric">
+                    <div class="roi-label">Near-Term ROI</div>
+                    <div class="roi-value">32.8%</div>
+                </div>
+                <div class="roi-metric">
+                    <div class="roi-label">Long-Term ROI</div>
+                    <div class="roi-value">95.6%</div>
+                </div>
+                <div class="roi-note">
+                    Portfolio of 4 AI initiatives selected from 6 candidates, optimized for quick wins and sustainable long-term value
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            AI ROI & Roadmap Canvas generated by Smridhi's GPT Agent.
+        </div>
+    </div>
+</body>
+</html>
