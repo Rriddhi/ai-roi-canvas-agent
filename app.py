@@ -89,7 +89,7 @@ Get your API key from: https://console.anthropic.com/"""
     try:
         from anthropic import Anthropic
         
-        # Initialize client with latest Anthropic 1.x API
+        # Initialize client - Anthropic 0.21.0
         client = Anthropic(api_key=api_key)
         
         response = client.messages.create(
@@ -114,20 +114,20 @@ pip install anthropic
 
 Then restart the app."""
         
-    except (TypeError, AttributeError) as e:
-        error_str = str(e)
-        if "proxies" in error_str or "unexpected keyword" in error_str:
-            return """⚠️ **SDK Deployment in Progress**
+    except Exception as e:
+        error_str = str(e).lower()
+        if "api" in error_str or "key" in error_str or "auth" in error_str:
+            return f"""⚠️ **API Authentication Error**
 
-The Anthropic library is being updated to fix this issue. Please:
+Your API key may be invalid or expired.
 
-1. **Hard refresh** your browser (Cmd+Shift+R on Mac)
-2. **Wait 5 minutes** for Streamlit Cloud deployment to complete
-3. **Try again**
+Error: {str(e)}
 
-If the error persists after 5 minutes, there may be a cache issue on Streamlit Cloud."""
+Check your key at: https://console.anthropic.com/"""
         else:
-            raise
+            return f"""⚠️ **Unexpected Error**
+
+{str(e)}"""
         
     except Exception as e:
         error_msg = str(e)
