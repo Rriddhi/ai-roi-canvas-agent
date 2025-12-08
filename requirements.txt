@@ -1,6 +1,6 @@
 # Core Dependencies
 streamlit==1.45.1
-anthropic==0.7.1
+anthropic==0.29.0
 pandas==2.2.3
 numpy==1.26.4
 
