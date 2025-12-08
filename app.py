@@ -113,6 +113,16 @@ pip install anthropic
 
 Then restart the app."""
         
+    except TypeError as e:
+        if "proxies" in str(e):
+            return """⚠️ **SDK Version Mismatch**
+
+The Anthropic library is being redeployed. Please wait 2-3 minutes and refresh the page.
+
+If this persists, the app may need to clear its cache on Streamlit Cloud."""
+        else:
+            raise
+        
     except Exception as e:
         error_msg = str(e)
         if "api_key" in error_msg.lower() or "authentication" in error_msg.lower():
