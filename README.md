@@ -2,7 +2,7 @@
 
 An **intelligent conversational AI agent** that interviews you to build an AI portfolio and generates a comprehensive AI ROI & Roadmap Canvas with **professional visual layouts**.
 
-## 🎨 New: Visual Canvas Generation!
+## 🎨 Visual Canvas Generation!
 
 The agent now creates **beautiful, professional visual canvases** that match the standard AI ROI & Roadmap Canvas format - not just JSON, but actual visual layouts you can view, print, and present!
 
