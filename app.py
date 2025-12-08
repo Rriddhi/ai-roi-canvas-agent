@@ -89,6 +89,7 @@ Get your API key from: https://console.anthropic.com/"""
     try:
         from anthropic import Anthropic
         
+        # Initialize client with latest Anthropic 1.x API
         client = Anthropic(api_key=api_key)
         
         response = client.messages.create(
@@ -113,13 +114,18 @@ pip install anthropic
 
 Then restart the app."""
         
-    except TypeError as e:
-        if "proxies" in str(e):
-            return """⚠️ **SDK Version Mismatch**
+    except (TypeError, AttributeError) as e:
+        error_str = str(e)
+        if "proxies" in error_str or "unexpected keyword" in error_str:
+            return """⚠️ **SDK Deployment in Progress**
 
-The Anthropic library is being redeployed. Please wait 2-3 minutes and refresh the page.
+The Anthropic library is being updated to fix this issue. Please:
 
-If this persists, the app may need to clear its cache on Streamlit Cloud."""
+1. **Hard refresh** your browser (Cmd+Shift+R on Mac)
+2. **Wait 5 minutes** for Streamlit Cloud deployment to complete
+3. **Try again**
+
+If the error persists after 5 minutes, there may be a cache issue on Streamlit Cloud."""
         else:
             raise
         
